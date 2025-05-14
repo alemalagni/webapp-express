@@ -4,11 +4,11 @@ const port = 3000;
 const db = require('./db')
 
 app.get('/', (req, res) => {
-    db.query('SELECT NOW() AS ora_corrente', (err, results) => {
+    db.query('SELECT * FROM movies', (err, results) => {
         if (err) {
-            return res.status(500).send('Errore nella query: ' + err.message);
+            return res.status(500).send('Errore nel recupero della lista dei film: ' + err.message);
         }
-        res.send(`DB funzionante! Ora dal DB: ${results[0].ora_corrente}`);
+        res.send(results);
     });
 });
 

@@ -3,6 +3,7 @@ const app = express();
 const port = 3000;
 const db = require('./db')
 
+// INDEX
 app.get('/', (req, res) => {
     db.query('SELECT * FROM movies', (err, results) => {
         if (err) {
@@ -11,6 +12,14 @@ app.get('/', (req, res) => {
         res.send(results);
     });
 });
+
+// SHOW 
+app.get('/movies/:id', (req, res) => {
+    const movieId = req.params.id;
+
+    const movieQuery = 'SELECT * FROM movies WHERE id = ?';
+    db.query(movieQuery, [movieId], (err, movieResult));
+})
 
 app.listen(port, () => {
     console.log(`Server in ascolto su http://localhost:${port}`);

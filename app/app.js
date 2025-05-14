@@ -1,7 +1,11 @@
 const express = require('express');
 const app = express();
+const cors = require('cors')
 const port = 3000;
 const db = require('./db')
+
+app.use(cors());
+app.use(express.json());
 
 // INDEX
 app.get('/', (req, res) => {

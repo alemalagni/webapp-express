@@ -31,9 +31,18 @@ app.get('/movies/:id', (req, res) => {
         const movie = movieResult[0];
 
         const reviewsQuery = 'SELECT id, name, vote, text, created_at FROM reviews WHERE movie_id = ?';
-        db.query(reviewsQuery, [movieId], (err, reviewResults))
+        db.query(reviewsQuery, [movieId], (err, reviewResults) => {
+            if (err) {
+                console.log('Errore durante il recupero delle recensioni: ', err);
+                return res.status(500).send('Errore interno al server');
+            }
+            res.json({
+                ...movie,
+                reviews: reviewResults
+            });
+        });
     });
-})
+});
 
 app.listen(port, () => {
     console.log(`Server in ascolto su http://localhost:${port}`);

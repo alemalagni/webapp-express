@@ -18,7 +18,21 @@ app.get('/movies/:id', (req, res) => {
     const movieId = req.params.id;
 
     const movieQuery = 'SELECT * FROM movies WHERE id = ?';
-    db.query(movieQuery, [movieId], (err, movieResult));
+    db.query(movieQuery, [movieId], (err, movieResult) => {
+        if (err) {
+            console.error('Errore durante il recupero del film: ', err);
+            return res.status(500).send('Errore interno al server');
+        }
+
+        if (movieResult.length === 0) {
+            return send.status(404).send('Film non trovato');
+        }
+
+        const movie = movieResult[0];
+
+        const reviewsQuery = 'SELECT id, name, vote, text, created_at FROM reviews WHERE movie_id = ?';
+        db.query(reviewsQuery, [movieId], (err, reviewResults))
+    });
 })
 
 app.listen(port, () => {

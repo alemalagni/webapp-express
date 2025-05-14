@@ -1,9 +1,15 @@
 const express = require('express');
 const app = express();
 const port = 3000;
+const db = require('./db')
 
 app.get('/', (req, res) => {
-    res.send('Server Avviato :D!')
+    db.query('SELECT NOW() AS ora_corrente', (err, results) => {
+        if (err) {
+            return res.status(500).send('Errore nella query: ' + err.message);
+        }
+        res.send(`DB funzionante! Ora dal DB: ${results[0].ora_corrente}`);
+    });
 });
 
 app.listen(port, () => {

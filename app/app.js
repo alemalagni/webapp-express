@@ -56,6 +56,20 @@ app.post('/movies/:id/reviews', (req, res) => {
     if (!name || !vote) {
         return res.status(400).json({ error: 'Nome e voto sono obbligatori' });
     }
+
+    const query = `
+        INSERT INTO reviews (movie_id, name, vote, text)
+        VALUES (?, ?, ?, ?)
+    `;
+
+    db.query(query, [movieId, name, vote, text], (err, result) => {
+        if (err) {
+            console.error('Errore nel salvataggio recensione:', err);
+            return res.status(500).json({ error: 'Errore nel server nel salvataggio' });
+        };
+
+        return res.status(201).json({ message: 'Recensione salvata', id: result.insertId });
+    });
 })
 
 app.listen(port, () => {

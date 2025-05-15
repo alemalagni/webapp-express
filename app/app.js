@@ -29,7 +29,7 @@ app.get('/movies/:id', (req, res) => {
         }
 
         if (movieResult.length === 0) {
-            return send.status(404).send('Film non trovato');
+            return res.status(404).send('Film non trovato');
         }
 
         const movie = movieResult[0];
@@ -41,8 +41,10 @@ app.get('/movies/:id', (req, res) => {
                 return res.status(500).send('Errore interno al server');
             }
             res.json({
-                ...movie,
-                reviews: reviewResults
+                movie: {
+                    ...movie,
+                    reviews: reviewResults
+                }
             });
         });
     });

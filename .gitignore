@@ -598,3 +598,4 @@ app/node_modules/wrappy/LICENSE
 app/node_modules/wrappy/package.json
 app/node_modules/wrappy/README.md
 app/node_modules/wrappy/wrappy.js
+.DS_Store

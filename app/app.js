@@ -48,6 +48,16 @@ app.get('/movies/:id', (req, res) => {
     });
 });
 
+// UPDATE (Review)
+app.post('/movies/:id/reviews', (req, res) => {
+    const movieId = req.params.id;
+    const { name, vote, text } = req.body;
+
+    if (!name || !vote) {
+        return res.status(400).json({ error: 'Nome e voto sono obbligatori' });
+    }
+})
+
 app.listen(port, () => {
     console.log(`Server in ascolto su http://localhost:${port}`);
 });
